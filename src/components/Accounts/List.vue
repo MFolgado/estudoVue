@@ -18,10 +18,10 @@
           </tr>
           </thead>
           <tbody>
-          <tr @click="goTo(1)">
+          <tr v-for="account in accounts.data" :key="account.id"  @click="goTo(account.id)">
             <td class="valign-wrapper">
-              Conta título&nbsp;
-              <small>agência: 0000 / conta: 0000  / código do banco: 000 </small>
+              {{account.title}}
+              <small>agência: {{account.agency}} / conta: {{account.account_number}}  / código do banco: {{account.bank.code}} </small>
             </td>
           </tr>
           </tbody>
@@ -41,6 +41,14 @@ export default {
     goTo: function (id) {
       this.$router.push('/contas/' + id)
     }
+  },
+  computed: {
+    accounts () {
+      return this.$store.state.account.accountList
+    }
+  },
+  created () {
+    this.$store.dispatch('getAccounts')
   }
 }
 </script>
